@@ -13,9 +13,9 @@ namespace MergeSort
             int[] arraySingleThread = new int[ARRAY_SIZE];
             Random Rand = new Random();
             Stopwatch stopwatch = new Stopwatch();
-            int[] LA =new int []{1,3,5,7,9};
-            int[] RA = new int []{2,4,6,8,10};
-            int[] result_Array= new int[10];
+            int[] LA =new int []{1,3,5,7,9,11,13,15};
+            int[] RA = new int []{2,4,6,8,10,12,14,16};
+            int[] result_Array = new int[arraySingleThread.Length];
 
 
             for (int i = 0; i < ARRAY_SIZE; i++)
@@ -41,9 +41,16 @@ namespace MergeSort
 
             stopwatch.Start();
             //MergeSort(arraySingleThread);
-            stopwatch.Stop();
-            Merge(LA,RA,result_Array);
+            result_Array = MergeSort(arraySingleThread);
             PrintArray(result_Array);
+            stopwatch.Stop();
+            TimeSpan ts = stopwatch.Elapsed;
+
+            // Format and display the TimeSpan value.
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours, ts.Minutes, ts.Seconds,
+                ts.Milliseconds / 10);
+            Console.WriteLine("RunTime " + elapsedTime);
 
 
             //TODO: Multi Threading Merge Sort
@@ -56,10 +63,7 @@ namespace MergeSort
             */
             
             static int[] Merge(int[] LA, int[] RA, int[] A)
-            {
-                int result_length = LA.Length + RA.Length;
-                int[] result_Array = new int [result_length];
-                
+            {  
                 int index_Right = 0; 
                 int index_Result = 0; 
                 int index_Left = 0;
@@ -72,62 +76,75 @@ namespace MergeSort
                    
                     if (LA[index_Left] > RA[index_Right])
                     {
-                        result_Array[index_Result] = RA[index_Right];
-                        index_Right++;
+                        A[index_Result] = RA[index_Right];
                         index_Result++;
+                        index_Right++;
+                        
                     }
                     
                     else
                     {
-                        result_Array[index_Result] = LA[index_Left];
-                        index_Left++;
+                        A[index_Result] = LA[index_Left];
                         index_Result++;
+                        index_Left++;
                     }
                 }
                  else if (index_Right < RA.Length)
                 {
-                    result_Array[index_Result] = RA[index_Right];
-                    index_Right++;
+                    A[index_Result] = RA[index_Right];
                     index_Result++;
+                    index_Right++;
                 }  
                 else if (index_Left < LA.Length)
                 {
-                    result_Array[index_Result] = LA[index_Left];
-                    index_Left++;
+                    A[index_Result] = LA[index_Left];
                     index_Result++;
+                    index_Left++;
                 }
-                
-               
             }
-            return result_Array;
+            return A;
             }
 
             /*
             implement MergeSort method: takes an integer array by reference
             and makes some recursive calls to intself and then sorts the array
             */
-            /*
+            
             static int[] MergeSort(int[] A)
             {
-            
-            int length = A.Length;
-            int Midpoint = (int) Math.Floor((double) length / 2);
+            //used c-sharpcorder.com as reference
             int[] left;
             int[] right;
-            int[] sorted_array = new int[length];
-
-            //Array.Copy(A,Midpoint,left,0,);
-
-            if (length < 2)
+            int[] result = new int[A.Length];
+            int a = 0;
+            if (A.Length <= 1)
                 return A;
 
-            // TODO :implement
+            int midPoint = A.Length / 2;
+            left = new int[midPoint];
 
-          }
-            */
-
-                // a helper function to print your array
+            if (A.Length % 2 == 1)
+                right = new int[midPoint+1];
+            else
+                right = new int[midPoint];
+          
+            for (int i = midPoint; i < A.Length; i++)
+            {
+                right[a] = A[i];
+               a++;
+            }
+            for (int i = 0; i < midPoint; i++)
+                left[i] = A[i];
             
+            left = MergeSort(left);
+            
+            right = MergeSort(right);
+
+            Merge(left, right, result);
+            return result;
+        }
+            
+            // a helper function to print your array
             static void PrintArray(int[] myArray)
             {
                 Console.Write("[");
