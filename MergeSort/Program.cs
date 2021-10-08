@@ -153,7 +153,7 @@ namespace MergeSort
             stopwatch_multithread.Start();
 
             List<Thread> threads = new List<Thread>();
-            for (int i = 0; i < Variables.workerThreads; i++)
+            for (int i = 0; i < Math.Min (Variables.workerThreads, Variables.num_threads); i++)
             {
                 try
                 {
@@ -174,7 +174,7 @@ namespace MergeSort
 
 
             int[] finale = new int[Variables.ARRAY_SIZE];
-            Merge_threads(Variables.workerThreads, Jagged_array);
+            Merge_threads(Math.Min(Variables.workerThreads,Variables.num_threads), Jagged_array);
 
             finale = Jagged_array[0];
             stopwatch_multithread.Stop();
