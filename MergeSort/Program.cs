@@ -41,7 +41,7 @@ namespace MergeSort
             {
                 arraySingleThread[i] = Rand.Next((-Variables.ARRAY_SIZE), Variables.ARRAY_SIZE);
             }
-
+            Console.WriteLine("      initial array:    __________________________________________________________________________________________");
             PrintArray(arraySingleThread);
 
 
@@ -137,7 +137,7 @@ namespace MergeSort
             stopwatch_singlethread.Start();
             arraySingleThread = MergeSort_single(arraySingleThread);
             stopwatch_singlethread.Stop();
-            Console.WriteLine("Single thread array:___________________");
+            Console.WriteLine("Single thread array:    __________________________________________________________________________________________");
             PrintArray(arraySingleThread);
             if (IsSorted(arraySingleThread) == true)
                 Console.WriteLine("The Array is sorted");
@@ -185,7 +185,7 @@ namespace MergeSort
                 PrintArray(Jagged_array[i]);
             }
             */
-            Console.WriteLine("Final multithread array:___________________");
+            Console.WriteLine("Final multithread array:__________________________________________________________________________________________");
             PrintArray(Jagged_array[0]);
             if (IsSorted(finale) == true)
                 Console.WriteLine("The Array is sorted");
