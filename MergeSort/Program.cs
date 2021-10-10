@@ -25,9 +25,9 @@ namespace MergeSort
     {
         public static void Main(string[] args)
         {
-            Variables.ARRAY_SIZE = 8;
+            Variables.ARRAY_SIZE = 10000000;
             int[] arraySingleThread = new int[Variables.ARRAY_SIZE];
-            Variables.workerThreads = 10;
+            Variables.workerThreads = 8;
             Random Rand = new Random();
             Stopwatch stopwatch_singlethread = new Stopwatch();
             Stopwatch stopwatch_multithread = new Stopwatch();
@@ -42,7 +42,7 @@ namespace MergeSort
                 arraySingleThread[i] = Rand.Next((-Variables.ARRAY_SIZE), Variables.ARRAY_SIZE);
             }
             Console.WriteLine("      initial array:    __________________________________________________________________________________________");
-            PrintArray(arraySingleThread);
+            //PrintArray(arraySingleThread);
 
 
             // copy array by value.. You can also use array.copy()
@@ -138,7 +138,7 @@ namespace MergeSort
             arraySingleThread = MergeSort_single(arraySingleThread);
             stopwatch_singlethread.Stop();
             Console.WriteLine("Single thread array:    __________________________________________________________________________________________");
-            PrintArray(arraySingleThread);
+            //PrintArray(arraySingleThread);
             if (IsSorted(arraySingleThread) == true)
                 Console.WriteLine("The Array is sorted");
             else
@@ -186,7 +186,7 @@ namespace MergeSort
             }
             */
             Console.WriteLine("Final multithread array:__________________________________________________________________________________________");
-            PrintArray(Jagged_array[0]);
+            //PrintArray(Jagged_array[0]);
             if (IsSorted(finale) == true)
                 Console.WriteLine("The Array is sorted");
             else
@@ -333,7 +333,6 @@ namespace MergeSort
                     index_Left++;
                 }
             }
-            //return A;
         }
 
         /*
@@ -347,7 +346,7 @@ namespace MergeSort
 
             int[] left;
             int[] right;
-            int[] result = new int[A.Length];
+            //int[] result = new int[A.Length];
             int a = 0;
             if (A.Length <= 1)
             {
