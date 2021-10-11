@@ -25,9 +25,9 @@ namespace MergeSort
     {
         public static void Main(string[] args)
         {
-            Variables.ARRAY_SIZE = 10000000;
+            Variables.ARRAY_SIZE = 1000000;
             int[] arraySingleThread = new int[Variables.ARRAY_SIZE];
-            Variables.workerThreads = 10;
+            Variables.workerThreads = 50;
             Random Rand = new Random();
             Stopwatch stopwatch_singlethread = new Stopwatch();
             Stopwatch stopwatch_multithread = new Stopwatch();

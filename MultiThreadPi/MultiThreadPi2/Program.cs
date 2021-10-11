@@ -10,10 +10,10 @@ namespace MultiThreadPi2
     {
         static void Main(string[] args)
         {
-            long numberOfSamples = 1000000000;
+            long numberOfSamples = 100000000;
             long hits_multi = 0;
             long hits_single = 0;
-            int num_threads = 12;
+            int num_threads = 8;
             long samples_per_thread = numberOfSamples / num_threads;
             Stopwatch stopwatch_singlethread = new Stopwatch();
             Stopwatch stopwatch_multithread = new Stopwatch();
