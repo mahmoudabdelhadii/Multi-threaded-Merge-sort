@@ -27,7 +27,7 @@ namespace MergeSort
         {
             Variables.ARRAY_SIZE = 10000000;
             int[] arraySingleThread = new int[Variables.ARRAY_SIZE];
-            Variables.workerThreads = 8;
+            Variables.workerThreads = 10;
             Random Rand = new Random();
             Stopwatch stopwatch_singlethread = new Stopwatch();
             Stopwatch stopwatch_multithread = new Stopwatch();
@@ -60,17 +60,7 @@ namespace MergeSort
                     Jagged_array[j] = new int[Variables.Elements_per_Array];
                     Array.Copy(arrayMultiThread, Variables.Accumulator, Jagged_array[j], 0, Variables.Elements_per_Array);
 
-                    try
-                    {
-                        //PrintArray(Jagged_array[j]);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                    }
 
-
-                    //Console.WriteLine("Accumulator: {0}, Elements per array: {1}", Variables.Accumulator, Variables.Elements_per_Array);
                 }
                 Variables.num_threads = j;
                 //Console.WriteLine("j: {0} num_threads:{1} num_arrays:{2}", j, Variables.num_threads, Variables.num_arrays);
@@ -80,53 +70,20 @@ namespace MergeSort
 
                 for (Variables.Accumulator = 0, Variables.counter1 = 0; Variables.Accumulator <= (Variables.ARRAY_SIZE - Variables.Elements_per_Array); Variables.Accumulator += Variables.Elements_per_Array, Variables.counter1++)
                 {
-                    try
-                    {
+
                         Jagged_array[Variables.counter1] = new int[Variables.Elements_per_Array];
                         Array.Copy(arrayMultiThread, Variables.Accumulator, Jagged_array[Variables.counter1], 0, Variables.Elements_per_Array);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                    }
 
-                    try
-                    {
-                        //    PrintArray(Jagged_array[Variables.counter1]);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                    }
-
-
-                    //Console.WriteLine("Accumulator: {0}, Elements per array: {1}", Variables.Accumulator, Variables.Elements_per_Array);
-                    //Console.WriteLine("Counter1: {0}", Variables.counter1);
                 }
 
                 if (Variables.ARRAY_SIZE - Variables.Accumulator > 0)
                 {
 
-                    try
-                    {
+                    
                         Jagged_array[Variables.counter1] = new int[Variables.ARRAY_SIZE - Variables.Accumulator];
                         Array.Copy(arrayMultiThread, Variables.Accumulator, Jagged_array[Variables.counter1], 0, (Variables.ARRAY_SIZE - Variables.Accumulator));
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                    }
-
-                    try
-                    {
-                        //PrintArray(Jagged_array[Variables.counter1]);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                    }
-
-                    //Console.WriteLine("Accumulator: {0}, size of last array: {1}", Variables.Accumulator, Jagged_array[Variables.counter1].Length);
+                    
+                    
                     Variables.counter1++;
                 }
                 Variables.num_threads = Variables.counter1;
@@ -155,22 +112,14 @@ namespace MergeSort
             List<Thread> threads = new List<Thread>();
             for (int i = 0; i < Math.Min (Variables.workerThreads, Variables.num_threads); i++)
             {
-                try
-                {
-                    //Console.WriteLine(" i:{0} ", i);
-                    Thread thread1 = new Thread(() => MergeSort(Jagged_array[i]));
+                int k = i;
+                    Thread thread1 = new Thread(() => MergeSort(Jagged_array[k]));
                     thread1.Start();
                     threads.Add(thread1);
-                    //Console.WriteLine(" i2:{0} ", i);
-                    thread1.Join();
-
-                }
-                catch (IndexOutOfRangeException ex)
-                {
-                    Console.WriteLine(ex);
-                }
-
+                    
             }
+            foreach(Thread t in threads)
+                t.Join();
 
 
             int[] finale = new int[Variables.ARRAY_SIZE];
@@ -238,59 +187,60 @@ namespace MergeSort
             }
             else if (num_arrays % 2 == 0 && num_arrays > 2)
             {
-                List<int[]> arrayList = new List<int[]>();
-                List<Thread> threads_merge = new List<Thread>();
+                //List<int[]> arrayList = new List<int[]>();
+                //List<Thread> threads_merge = new List<Thread>();
                 for (int i = 0; i < (num_arrays / 2); i++)
                 {
 
-
+                    int k = i;
                     int[] sorted_jagged_array = new int[input_array[i].Length + input_array[num_arrays - 1 - i].Length];
                     // Console.WriteLine(" i:{0} outside i: {1} ", i, (num_arrays - 1 - i));
-                    Thread thread2 = new Thread(() => Merge(input_array[i], input_array[num_arrays - 1 - i], sorted_jagged_array));
+                    Thread thread2 = new Thread(() => Merge(input_array[k], input_array[num_arrays - 1 - k], sorted_jagged_array));
 
                     thread2.Start();
-                    threads_merge.Add(thread2);
+                    //threads_merge.Add(thread2);
                     //Console.WriteLine(" i2:{0} ", i);
                     thread2.Join();
                     Array.Resize(ref input_array[i], (input_array[i].Length + input_array[num_arrays - 1 - i].Length));
                     input_array[i] = sorted_jagged_array;
-                    arrayList.Add(input_array[i]);
+                    //arrayList.Add(input_array[i]);
                 }
+                
                 //arrayList.ForEach(PrintArray);
                 Merge_threads(num_arrays / 2, input_array);
 
             }
             else
             {
-                List<int[]> arrayList = new List<int[]>();
-                List<Thread> threads_merge = new List<Thread>();
+                //List<int[]> arrayList = new List<int[]>();
+                //List<Thread> threads_merge = new List<Thread>();
                 for (int i = 0; i < (num_arrays / 2); i++)
                 {
+                    int k = i;
                     int[] sorted_jagged_array = new int[input_array[i].Length + input_array[num_arrays - 2 - i].Length];
                     //Console.WriteLine(" i:{0} outside i: {1} ", i, (num_arrays - 2 - i));
-                    Thread thread2 = new Thread(() => Merge(input_array[i], input_array[num_arrays - 2 - i], sorted_jagged_array));
+                    Thread thread2 = new Thread(() => Merge(input_array[k], input_array[num_arrays - 2 - k], sorted_jagged_array));
 
                     thread2.Start();
-                    threads_merge.Add(thread2);
+                    //threads_merge.Add(thread2);
                     //Console.WriteLine(" i2:{0} ", i);
                     thread2.Join();
                     Array.Resize(ref input_array[i], (input_array[i].Length + input_array[num_arrays - 2 - i].Length));
                     input_array[i] = sorted_jagged_array;
-                    arrayList.Add(input_array[i]);
+                    //arrayList.Add(input_array[i]);
 
                 }
+               
                 int[] sorted_jagged_array_2 = new int[input_array[0].Length + input_array[num_arrays - 1].Length];
                 Thread thread3 = new Thread(() => Merge(input_array[0], input_array[num_arrays - 1], sorted_jagged_array_2));
                 thread3.Start();
-
-
                 thread3.Join();
                 //PrintArray(sorted_jagged_array_2);
                 //Console.WriteLine("________________________________________________");
                 Array.Resize(ref input_array[0], (input_array[0].Length + input_array[num_arrays - 1].Length));
                 input_array[0] = sorted_jagged_array_2;
 
-                arrayList.Add(input_array[0]);
+                //arrayList.Add(input_array[0]);
                 //arrayList.ForEach(PrintArray);
                 Merge_threads(num_arrays / 2, input_array);
             }
@@ -347,6 +297,7 @@ namespace MergeSort
             int[] left;
             int[] right;
             //int[] result = new int[A.Length];
+            
             int a = 0;
             if (A.Length <= 1)
             {
